@@ -1,0 +1,63 @@
+[
+  {
+    "bodyPart": "waist",
+    "equipment": "body weight",
+    "id": "0001",
+    "name": "3/4 sit-up",
+    "target": "abs",
+    "secondaryMuscles": [
+      "hip flexors",
+      "lower back"
+    ],
+    "instructions": [
+      "Lie flat on your back with your knees bent and feet flat on the ground.",
+      "Place your hands behind your head with your elbows pointing outwards.",
+      "Engaging your abs, slowly lift your upper body off the ground, curling forward until your torso is at a 45-degree angle.",
+      "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ],
+    "description": "The 3/4 sit-up is an abdominal exercise performed with body weight. It involves curling the torso up to a 45-degree angle, engaging the abs, hip flexors, and lower back. This movement is commonly used to build core strength and stability.",
+    "difficulty": "beginner",
+    "category": "strength"
+  },
+  {
+    "bodyPart": "waist",
+    "equipment": "body weight",
+    "id": "0002",
+    "name": "45° side bend",
+    "target": "abs",
+    "secondaryMuscles": [
+      "obliques"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart and your arms extended straight down by your sides.",
+      "Keeping your back straight and your core engaged, slowly bend your torso to one side, lowering your hand towards your knee.",
+      "Pause for a moment at the bottom, then slowly return to the starting position.",
+      "Repeat on the other side.",
+      "Continue alternating sides for the desired number of repetitions."
+    ],
+    "description": "The 45° side bend is a bodyweight exercise targeting the abdominal muscles, particularly the obliques. It involves bending the torso to the side while standing, engaging the core for stability and control.",
+    "difficulty": "beginner",
+    "category": "strength"
+  },
+  {
+    "bodyPart": "waist",
+    "equipment": "body weight",
+    "id": "0003",
+    "name": "air bike",
+    "target": "abs",
+    "secondaryMuscles": [
+      "hip flexors"
+    ],
+    "instructions": [
+      "Lie flat on your back with your hands placed behind your head.",
+      "Lift your legs off the ground and bend your knees at a 90-degree angle.",
+      "Bring your right elbow towards your left knee while simultaneously straightening your right leg.",
+      "Return to the starting position and repeat the movement on the opposite side, bringing your left elbow towards your right knee while straightening your left leg.",
+      "Continue alternating sides in a pedaling motion for the desired number of repetitions."
+    ],
+    "description": "The air bike is a bodyweight exercise targeting the abdominal muscles and hip flexors. It involves a pedaling motion while lying on your back, alternating elbow-to-knee contact to engage the core.",
+    "difficulty": "beginner",
+    "category": "strength"
+  }
+]

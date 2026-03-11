@@ -1,0 +1,75 @@
+﻿src/app/login/page.tsx(38,26): error TS2339: Property 'role' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(39,55): error TS2339: Property 'day_label' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(50,21): error TS2339: Property 'full_name' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(59,72): error TS2339: Property 'status' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(138,33): error TS2339: Property 'id' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(140,87): error TS2339: Property 'request_type' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(141,74): error TS2339: Property 'created_at' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(144,27): error TS2339: Property 'status' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(145,27): error TS2339: Property 'status' does not exist on type 'never'.
+src/app/member/dashboard/page.tsx(148,28): error TS2339: Property 'status' does not exist on type 'never'.
+src/app/member/diet/page.tsx(15,44): error TS2339: Property 'meal_time' does not exist on type 'never'.
+src/app/member/diet/page.tsx(15,82): error TS2339: Property 'meal_time' does not exist on type 'never'.
+src/app/member/diet/page.tsx(16,44): error TS2339: Property 'meal_time' does not exist on type 'never'.
+src/app/member/diet/page.tsx(16,82): error TS2339: Property 'meal_time' does not exist on type 'never'.
+src/app/member/diet/page.tsx(23,33): error TS2339: Property 'calories' does not exist on type 'never'.
+src/app/member/diet/page.tsx(24,31): error TS2339: Property 'protein_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(25,27): error TS2339: Property 'carbs_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(26,23): error TS2339: Property 'fat_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(81,32): error TS2339: Property 'id' does not exist on type 'never'.
+src/app/member/diet/page.tsx(86,76): error TS2339: Property 'meal_time' does not exist on type 'never'.
+src/app/member/diet/page.tsx(88,87): error TS2339: Property 'food_items' does not exist on type 'never'.
+src/app/member/diet/page.tsx(89,29): error TS2339: Property 'notes' does not exist on type 'never'.
+src/app/member/diet/page.tsx(89,98): error TS2339: Property 'notes' does not exist on type 'never'.
+src/app/member/diet/page.tsx(91,27): error TS2339: Property 'calories' does not exist on type 'never'.
+src/app/member/diet/page.tsx(93,80): error TS2339: Property 'calories' does not exist on type 'never'.
+src/app/member/diet/page.tsx(95,32): error TS2339: Property 'protein_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(95,50): error TS2339: Property 'carbs_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(95,66): error TS2339: Property 'fat_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(97,75): error TS2339: Property 'protein_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(98,76): error TS2339: Property 'carbs_g' does not exist on type 'never'.
+src/app/member/diet/page.tsx(99,77): error TS2339: Property 'fat_g' does not exist on type 'never'.
+src/app/member/explore/page.tsx(50,46): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { onConflict?: string | undefined; ignoreDuplicates?: boolean | undefined; count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ ...; }, ... 5 more ..., "POST">', gave the following error.
+    Argument of type '{ user_id: string; exercise_db_id: string; exercise_name: string; exercise_gif: string | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { onConflict?: string | undefined; ignoreDuplicates?: boolean | undefined; count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<...>', gave the following error.
+    Object literal may only specify known properties, and 'user_id' does not exist in type 'never[]'.
+src/app/member/layout.tsx(17,16): error TS2339: Property 'role' does not exist on type 'never'.
+src/app/member/layout.tsx(21,51): error TS2339: Property 'full_name' does not exist on type 'never'.
+src/app/member/my-plan/page.tsx(17,19): error TS2339: Property 'day_label' does not exist on type 'never'.
+src/app/member/my-plan/page.tsx(17,40): error TS2339: Property 'day_label' does not exist on type 'never'.
+src/app/member/my-plan/page.tsx(18,14): error TS2339: Property 'day_label' does not exist on type 'never'.
+src/app/member/my-plan/page.tsx(50,54): error TS2339: Property 'id' does not exist on type 'never'.
+src/app/member/request/page.tsx(31,55): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "requests", never, "POST">', gave the following error.
+    Argument of type '{ member_id: string; trainer_id: string; request_type: "diet" | "workout" | "both"; notes: string | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "requests", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'member_id' does not exist in type 'never[]'.
+src/app/signup/page.tsx(38,71): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { onConflict?: string | undefined; ignoreDuplicates?: boolean | undefined; count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ ...; }, ... 5 more ..., "POST">', gave the following error.
+    Argument of type '{ id: string; email: string; full_name: string; role: "trainer" | "member"; phone: string | null; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { onConflict?: string | undefined; ignoreDuplicates?: boolean | undefined; count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<...>', gave the following error.
+    Object literal may only specify known properties, and 'id' does not exist in type 'never[]'.
+src/app/trainer/dashboard/page.tsx(46,62): error TS2345: Argument of type '{ status: "pending" | "in_progress" | "completed"; updated_at: string; }' is not assignable to parameter of type 'never'.
+src/app/trainer/dashboard/page.tsx(153,69): error TS2551: Property 'member_id' does not exist on type 'Request'. Did you mean 'member'?
+src/app/trainer/diet-generator/page.tsx(111,64): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "diet_plans", never, "POST">', gave the following error.
+    Argument of type '{ member_id: string; trainer_id: string; meal_time: string; food_items: string; calories: number | null; protein_g: number | null; carbs_g: number | null; fat_g: number | null; notes: string | null; }[]' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "diet_plans", never, "POST">', gave the following error.
+    Argument of type '{ member_id: string; trainer_id: string; meal_time: string; food_items: string; calories: number | null; protein_g: number | null; carbs_g: number | null; fat_g: number | null; notes: string | null; }[]' is not assignable to parameter of type 'never[]'.
+      Type '{ member_id: string; trainer_id: string; meal_time: string; food_items: string; calories: number | null; protein_g: number | null; carbs_g: number | null; fat_g: number | null; notes: string | null; }' is not assignable to type 'never'.
+src/app/trainer/layout.tsx(17,16): error TS2339: Property 'role' does not exist on type 'never'.
+src/app/trainer/layout.tsx(21,52): error TS2339: Property 'full_name' does not exist on type 'never'.
+src/app/trainer/templates/page.tsx(42,70): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "routine_templates", never, "POST">', gave the following error.
+    Argument of type '{ trainer_id: string; name: string; description: string | null; exercises: never[]; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "routine_templates", never, "POST">', gave the following error.
+    Object literal may only specify known properties, and 'trainer_id' does not exist in type 'never[]'.
+src/app/trainer/workout-builder/page.tsx(92,11): error TS7034: Variable 'rows' implicitly has type 'any[]' in some locations where its type cannot be determined.
+src/app/trainer/workout-builder/page.tsx(109,62): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "routines", never, "POST">', gave the following error.
+    Argument of type 'any[]' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: "12"; }, never, never, null, "routines", never, "POST">', gave the following error.
+    Argument of type 'any[]' is not assignable to parameter of type 'never[]'.
+      Type 'any' is not assignable to type 'never'.
+src/app/trainer/workout-builder/page.tsx(109,62): error TS7005: Variable 'rows' implicitly has an 'any[]' type.

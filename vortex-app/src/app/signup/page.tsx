@@ -13,7 +13,6 @@ export default function SignupPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [role, setRole] = useState<'member' | 'trainer'>('member')
   const [phone, setPhone] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -25,7 +24,7 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName, role } },
+      options: { data: { full_name: fullName, role: 'member' } },
     })
 
     if (error) {
@@ -39,7 +38,7 @@ export default function SignupPage() {
         id: data.user.id,
         email,
         full_name: fullName,
-        role,
+        role: 'member',
         phone: phone || null,
       })
       if (profileError) console.error('Profile error:', profileError)
@@ -47,7 +46,7 @@ export default function SignupPage() {
 
     toast.success('Account created! Redirecting...')
     setTimeout(() => {
-      router.push(role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard')
+      router.push('/member/dashboard')
       router.refresh()
     }, 1500)
   }
@@ -72,23 +71,7 @@ export default function SignupPage() {
 
         <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
           <form onSubmit={handleSignup} className="space-y-5">
-            {/* Role selector */}
-            <div className="grid grid-cols-2 gap-3">
-              {(['member', 'trainer'] as const).map(r => (
-                <button
-                  key={r}
-                  type="button"
-                  onClick={() => setRole(r)}
-                  className={`py-3 rounded-lg text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
-                    role === r
-                      ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(225,29,29,0.4)]'
-                      : 'bg-zinc-900 border border-zinc-800 text-zinc-500 hover:border-zinc-600'
-                  }`}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
+            {/* Role selector removed */}
 
             <div>
               <label className="block text-xs font-semibold text-zinc-400 mb-2 tracking-widest uppercase">Full Name</label>

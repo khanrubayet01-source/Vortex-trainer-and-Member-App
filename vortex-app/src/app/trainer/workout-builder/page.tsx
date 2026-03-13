@@ -36,6 +36,7 @@ function WorkoutBuilderInner() {
   const [activeDay, setActiveDay] = useState('Day 1')
   const [plan, setPlan] = useState<DayPlan>({})
   const [saving, setSaving] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   const { data: bodyParts } = useQuery({ queryKey: ['bodyParts'], queryFn: getBodyParts })
   const { data: exercises, isLoading: exLoading } = useQuery({
@@ -44,6 +45,13 @@ function WorkoutBuilderInner() {
       ? getExercisesByBodyPart(selectedBodyPart, 20)
       : searchExercises(debouncedQuery || 'chest', 20),
   })
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024)
+    const handleResize = () => setIsMobile(window.innerWidth < 1024)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     supabase.from('profiles').select('id, full_name, email').eq('role', 'member').then(({ data }) => setMembers(data || []))
@@ -108,7 +116,40 @@ function WorkoutBuilderInner() {
     
     const { error } = await supabase.from('routines').insert(rows)
     if (error) toast.error('Failed to save: ' + error.message)
-    else toast.success(`Workout plan saved! ${totalExercises} exercises across ${Object.keys(plan).length} days.`)
+    else {
+      toast.success(`Workout plan saved! ${totalExercises} exercises across ${Object.keys(plan).length} days.`)
+
+      // ── Email the member ───────────────────────────────
+      try {
+        const [memberRes, trainerRes] = await Promise.all([
+          supabase.from('profiles').select('email, full_name').eq('id', memberId).single(),
+          supabase.from('profiles').select('full_name').eq('id', user.id).single(),
+        ])
+        const memberEmail = (memberRes.data as any)?.email
+        const memberName = (memberRes.data as any)?.full_name || 'Athlete'
+        const trainerName = (trainerRes.data as any)?.full_name || 'Your Trainer'
+        if (memberEmail) {
+          fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'workout',
+              to: [memberEmail],
+              payload: {
+                memberName,
+                trainerName,
+                dayCount: Object.keys(plan).length,
+                exerciseCount: totalExercises,
+              },
+            }),
+          }).then(r => r.json()).then(data => {
+            if (data.success) toast.success(`📧 Notification emailed to ${memberName}`)
+          }).catch(() => toast.warning('Plan saved but email notification failed'))
+        }
+      } catch {
+        // silent
+      }
+    }
     setSaving(false)
   }
 
@@ -223,7 +264,7 @@ function WorkoutBuilderInner() {
             <div className="flex flex-col items-center justify-center h-full text-center">
               <div className="w-16 h-16 rounded-full border-2 border-dashed border-zinc-700 flex items-center justify-center text-2xl mb-4">+</div>
               <p className="text-zinc-600 text-sm">
-                {window?.innerWidth < 1024 ? 'Tap "Exercise Library" tab to search and add exercises' : 'Search exercises on the left and click + to add them here'}
+                {isMobile ? 'Tap "Exercise Library" tab to search and add exercises' : 'Search exercises on the left and click + to add them here'}
               </p>
             </div>
           ) : activeDayExercises.map((item) => (

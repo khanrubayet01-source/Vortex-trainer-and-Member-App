@@ -110,7 +110,41 @@ export default function DietGeneratorPage() {
 
     const { error } = await supabase.from('diet_plans').insert(rows)
     if (error) toast.error('Save failed: ' + error.message)
-    else toast.success('Diet chart saved and sent to member!')
+    else {
+      toast.success('Diet chart saved and sent to member!')
+
+      // ── Email the member ───────────────────────────────
+      try {
+        const [memberRes, trainerRes] = await Promise.all([
+          supabase.from('profiles').select('email, full_name').eq('id', memberId).single(),
+          supabase.from('profiles').select('full_name').eq('id', user.id).single(),
+        ])
+        const memberEmail = (memberRes.data as any)?.email
+        const memberName = (memberRes.data as any)?.full_name || 'Athlete'
+        const trainerName = (trainerRes.data as any)?.full_name || 'Your Trainer'
+        const totalCalories = rows.reduce((sum: number, r: any) => sum + (r.calories || 0), 0)
+        if (memberEmail) {
+          fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'diet',
+              to: [memberEmail],
+              payload: {
+                memberName,
+                trainerName,
+                mealCount: rows.length,
+                totalCalories,
+              },
+            }),
+          }).then(r => r.json()).then(data => {
+            if (data.success) toast.success(`📧 Diet chart emailed to ${memberName}`)
+          }).catch(() => toast.warning('Diet saved but email notification failed'))
+        }
+      } catch {
+        // silent
+      }
+    }
     setSaving(false)
   }
 

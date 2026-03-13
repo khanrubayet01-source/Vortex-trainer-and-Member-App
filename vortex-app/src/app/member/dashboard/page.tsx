@@ -1,11 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 
-const GYM_NOTICES = [
-  { title: 'New Equipment Arrived!', body: 'Check out our brand new cable machines and Smith rack in Zone B.', type: 'info' },
-  { title: 'Holiday Hours', body: 'We will operate 8am–4pm on public holidays. Normal hours otherwise.', type: 'warning' },
-  { title: 'Challenge of the Month', body: '30-Day Squat Challenge is live! Join at reception or ask your trainer.', type: 'success' },
-]
-
 const GYM_HOURS = [
   { day: 'Monday – Friday', hours: '6:00 AM – 10:00 PM' },
   { day: 'Saturday', hours: '7:00 AM – 8:00 PM' },
@@ -17,26 +11,19 @@ export default async function MemberDashboard() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name')
-    .eq('id', user!.id)
-    .single()
+  const [profileRes, requestsRes, routinesRes, noticesRes] = await Promise.all([
+    supabase.from('profiles').select('full_name').eq('id', user!.id).single(),
+    supabase.from('requests').select('id, status, request_type, created_at').eq('member_id', user!.id).order('created_at', { ascending: false }).limit(3),
+    supabase.from('routines').select('day_label, exercise_name').eq('member_id', user!.id).order('day_label'),
+    supabase.from('gym_notices').select('id, title, body, type, created_at').order('created_at', { ascending: false }).limit(5),
+  ])
 
-  const { data: myRequests } = await supabase
-    .from('requests')
-    .select('id, status, request_type, created_at')
-    .eq('member_id', user!.id)
-    .order('created_at', { ascending: false })
-    .limit(3) as any
+  const profile = profileRes.data as { full_name: string | null } | null
+  const myRequests: any[] = (requestsRes.data as any) || []
+  const routines: any[] = (routinesRes.data as any) || []
+  const gymNotices: { id: string; title: string; body: string; type: 'info' | 'warning' | 'success'; created_at: string }[] = (noticesRes.data as any) || []
 
-  const { data: routines } = await supabase
-    .from('routines')
-    .select('day_label, exercise_name')
-    .eq('member_id', user!.id)
-    .order('day_label') as any
-
-  const uniqueDays = [...new Set(routines?.map(r => r.day_label) || [])]
+  const uniqueDays = [...new Set(routines.map(r => r.day_label))]
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
@@ -73,9 +60,15 @@ export default async function MemberDashboard() {
         <div className="lg:col-span-2 space-y-4">
           <h2 className="text-sm font-bold text-zinc-400 tracking-widest uppercase flex items-center gap-2">
             <span className="w-6 h-[2px] bg-red-600" /> Gym Billboard
+            <span className="ml-auto text-[10px] font-semibold bg-red-600/20 text-red-400 px-2 py-0.5 rounded-full uppercase tracking-widest">Live</span>
           </h2>
-          {GYM_NOTICES.map((notice, i) => (
-            <div key={i} className={`p-4 rounded-xl border ${
+          {gymNotices.length === 0 ? (
+            <div className="p-6 rounded-xl border border-dashed border-zinc-800 text-center">
+              <p className="text-2xl mb-2">📢</p>
+              <p className="text-zinc-600 text-sm">No announcements right now. Check back later!</p>
+            </div>
+          ) : gymNotices.map((notice) => (
+            <div key={notice.id} className={`p-4 rounded-xl border ${
               notice.type === 'success' ? 'bg-green-950/20 border-green-800/30' :
               notice.type === 'warning' ? 'bg-yellow-950/20 border-yellow-800/30' :
               'bg-blue-950/20 border-blue-800/30'
@@ -85,6 +78,7 @@ export default async function MemberDashboard() {
                 notice.type === 'warning' ? 'text-yellow-400' : 'text-blue-400'
               }`}>{notice.title}</h3>
               <p className="text-zinc-400 text-sm mt-1 leading-relaxed">{notice.body}</p>
+              <p className="text-xs text-zinc-600 mt-2">{new Date(notice.created_at).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
             </div>
           ))}
 

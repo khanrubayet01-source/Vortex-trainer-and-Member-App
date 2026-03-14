@@ -38,10 +38,16 @@ export function PushOptIn({ userId }: { userId: string }) {
 
   async function handleSubscribe() {
     try {
+      const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+      if (!vapidKey) {
+        toast.error('Push configuration missing. (NEXT_PUBLIC_VAPID_PUBLIC_KEY)')
+        return
+      }
+
       const registration = await navigator.serviceWorker.ready
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!)
+        applicationServerKey: urlBase64ToUint8Array(vapidKey.trim())
       })
 
       // Send to our backend

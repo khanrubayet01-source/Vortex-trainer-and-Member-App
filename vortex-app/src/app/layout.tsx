@@ -5,6 +5,10 @@ import { Providers } from './providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
+export const viewport = {
+  themeColor: '#09090b',
+}
+
 export const metadata: Metadata = {
   title: 'Vortex Fitness Club',
   description: 'Premium gym management portal for members and trainers',
@@ -15,7 +19,6 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'Vortex Fitness',
   },
-  themeColor: '#09090b',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

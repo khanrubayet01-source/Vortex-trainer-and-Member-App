@@ -101,6 +101,13 @@ function dietEmail(memberName: string, trainerName: string, mealCount: number, t
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.GMAIL_EMAIL || !process.env.GMAIL_APP_PASSWORD) {
+      console.error('[notify] Missing GMAIL credentials in environment variables')
+      return NextResponse.json({ 
+        error: 'Email service not configured on server (Missing GMAIL_EMAIL or GMAIL_APP_PASSWORD)' 
+      }, { status: 500 })
+    }
+
     const body = await req.json()
     const { type, to, payload } = body as {
       type: 'workout' | 'diet'
@@ -108,8 +115,19 @@ export async function POST(req: NextRequest) {
       payload: Record<string, any>
     }
 
+    console.log('[notify] Attempting to send email to:', to)
+
     if (!to || to.length === 0) {
       return NextResponse.json({ error: 'No recipients' }, { status: 400 })
+    }
+
+    // Verify transporter connection
+    try {
+      await transporter.verify()
+      console.log('[notify] SMTP connection verified successfully')
+    } catch (vErr: any) {
+      console.error('[notify] SMTP Verification failed:', vErr)
+      return NextResponse.json({ error: 'SMTP Login Failed: ' + vErr.message }, { status: 500 })
     }
 
     let subject = ''
@@ -127,20 +145,34 @@ export async function POST(req: NextRequest) {
 
     // Send using Gmail SMTP
     const fromAddress = process.env.GMAIL_EMAIL || 'vortexfitness@gmail.com'
-    const sends = to.map(email =>
-      transporter.sendMail({
-        from: '"Vortex Fitness Club" <' + fromAddress + '>',
-        to: email,
-        subject,
-        html,
-      })
-    )
+    
+    // We use a regular loop for better error capture per-email
+    const results = []
+    for (const email of to) {
+      console.log(`[notify] Sending to ${email}...`)
+      try {
+        const info = await transporter.sendMail({
+          from: `"Vortex Fitness Club" <${fromAddress}>`,
+          to: email,
+          subject,
+          html,
+        })
+        console.log(`[notify] Success for ${email}:`, info.messageId)
+        results.push({ email, success: true, messageId: info.messageId })
+      } catch (sendErr: any) {
+        console.error(`[notify] Failed for ${email}:`, sendErr)
+        results.push({ email, success: false, error: sendErr.message })
+      }
+    }
 
-    await Promise.allSettled(sends)
-
-    return NextResponse.json({ success: true, sent: to.length })
+    const allSuccess = results.every(r => r.success)
+    return NextResponse.json({ 
+      success: allSuccess, 
+      results,
+      totalSent: results.filter(r => r.success).length 
+    })
   } catch (err: any) {
-    console.error('[notify] Error:', err)
+    console.error('[notify] Global Error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

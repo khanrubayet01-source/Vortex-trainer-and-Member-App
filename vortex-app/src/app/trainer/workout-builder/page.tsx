@@ -128,7 +128,9 @@ function WorkoutBuilderInner() {
         const memberEmail = (memberRes.data as any)?.email
         const memberName = (memberRes.data as any)?.full_name || 'Athlete'
         const trainerName = (trainerRes.data as any)?.full_name || 'Your Trainer'
+        
         if (memberEmail) {
+          console.log(`[workout-builder] Sending email to ${memberEmail}`)
           fetch('/api/notify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -142,12 +144,27 @@ function WorkoutBuilderInner() {
                 exerciseCount: totalExercises,
               },
             }),
-          }).then(r => r.json()).then(data => {
-            if (data.success) toast.success(`📧 Notification emailed to ${memberName}`)
-          }).catch(() => toast.warning('Plan saved but email notification failed'))
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              toast.success(`📧 Notification emailed to ${memberName}`)
+            } else {
+              console.error('[workout-builder] Email API error:', data)
+              toast.error(`Email failed: ${data.error || 'Unknown error'}`)
+            }
+          })
+          .catch(err => {
+             console.error('[workout-builder] Fetch error:', err)
+             toast.warning('Plan saved but email notification server was unreachable')
+          })
+        } else {
+          console.warn('[workout-builder] Member email not found in profiles table')
+          toast.warning(`Notification skipped: No email found for ${memberName}`)
         }
-      } catch {
-        // silent
+      } catch (dbErr) {
+        console.error('[workout-builder] Database fetch error:', dbErr)
+        toast.error('Plan saved but could not fetch member email for notification')
       }
     }
     setSaving(false)

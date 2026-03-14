@@ -123,6 +123,7 @@ export default function DietGeneratorPage() {
         const memberName = (memberRes.data as any)?.full_name || 'Athlete'
         const trainerName = (trainerRes.data as any)?.full_name || 'Your Trainer'
         const totalCalories = rows.reduce((sum: number, r: any) => sum + (r.calories || 0), 0)
+        
         if (memberEmail) {
           fetch('/api/notify', {
             method: 'POST',
@@ -137,12 +138,22 @@ export default function DietGeneratorPage() {
                 totalCalories,
               },
             }),
-          }).then(r => r.json()).then(data => {
-            if (data.success) toast.success(`📧 Diet chart emailed to ${memberName}`)
-          }).catch(() => toast.warning('Diet saved but email notification failed'))
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              toast.success(`📧 Diet chart emailed to ${memberName}`)
+            } else {
+              toast.error(`Email failed: ${data.error || 'Unknown error'}`)
+            }
+          })
+          .catch(() => toast.warning('Diet saved but notification server was unreachable'))
+        } else {
+          toast.warning(`Notification skipped: No email found for ${memberName}`)
         }
-      } catch {
-        // silent
+      } catch (dbErr) {
+        console.error('[diet-generator] Fetch error:', dbErr)
+        toast.error('Diet saved but could not fetch member email for notification')
       }
     }
     setSaving(false)

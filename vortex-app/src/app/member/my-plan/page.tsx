@@ -46,7 +46,7 @@ export default async function MyPlanPage() {
                 <span className="ml-auto text-xs text-zinc-600">{dayMap[day]?.length} exercises</span>
               </div>
               <div className="divide-y divide-zinc-800/50">
-                {dayMap[day]?.map((exercise, idx) => (
+                {dayMap[day]?.map((exercise: any, idx: number) => (
                   <ExerciseDetailModal key={exercise.id} exercise={exercise} index={idx} />
                 ))}
               </div>

@@ -11,7 +11,7 @@ export default async function DietPage() {
     .order('meal_time') as any
 
   const MEAL_ORDER = ['Early Morning', 'Breakfast', 'Mid-Morning Snack', 'Lunch', 'Afternoon Snack', 'Pre-Workout', 'Post-Workout', 'Dinner', 'Bedtime Snack']
-  const sorted = dietPlans?.sort((a, b) => {
+  const sorted = dietPlans?.sort((a: any, b: any) => {
     const ai = MEAL_ORDER.findIndex(m => a.meal_time.includes(m) || m.includes(a.meal_time))
     const bi = MEAL_ORDER.findIndex(m => b.meal_time.includes(m) || m.includes(b.meal_time))
     if (ai === -1) return 1
@@ -19,7 +19,7 @@ export default async function DietPage() {
     return ai - bi
   })
 
-  const totals = dietPlans?.reduce((acc, d) => ({
+  const totals = dietPlans?.reduce((acc: any, d: any) => ({
     calories: acc.calories + (d.calories || 0),
     protein: acc.protein + (d.protein_g || 0),
     carbs: acc.carbs + (d.carbs_g || 0),
@@ -77,7 +77,7 @@ export default async function DietPage() {
               <h2 className="font-black text-white">Meal Schedule</h2>
             </div>
             <div className="divide-y divide-zinc-800/50">
-              {sorted?.map((meal, i) => (
+              {sorted?.map((meal: any, i: number) => (
                 <div key={meal.id} className="px-6 py-5 hover:bg-zinc-900/30 transition-colors">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">

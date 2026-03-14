@@ -64,28 +64,23 @@ export default function TrainerBillboardPage() {
       setShowForm(false)
       await loadNotices()
 
-      // ── Email all members ──────────────────────────────
+      // ── Push Notification to all members ─────────────
       try {
-        const { data: members } = await supabase
-          .from('profiles')
-          .select('email')
-          .eq('role', 'member')
-        const emails = (members || []).map((m: any) => m.email).filter(Boolean)
-        if (emails.length > 0) {
-          fetch('/api/notify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              type: 'billboard',
-              to: emails,
-              payload: { title: form.title.trim(), body: form.body.trim(), noticeType: form.type },
-            }),
-          }).then(r => r.json()).then(data => {
-            if (data.success) toast.success(`📧 Email sent to ${data.sent} member${data.sent !== 1 ? 's' : ''}`)
-          }).catch(() => toast.warning('Notice posted but email delivery failed'))
-        }
+        fetch('/api/push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'broadcast',
+            title: '📢 ' + form.title.trim(),
+            message: form.body.trim()
+          }),
+        }).then(r => r.json()).then(data => {
+          if (data.success && data.sentCount > 0) {
+            toast.success(`📲 Push sent to ${data.sentCount} member device(s)`)
+          }
+        }).catch(() => toast.warning('Notice posted but push failed'))
       } catch {
-        // silent — notice is already saved
+        // silent
       }
     }
     setSubmitting(false)

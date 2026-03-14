@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   title: 'Vortex Fitness Club',
   description: 'Premium gym management portal for members and trainers',
   keywords: 'gym, fitness, workout, diet plan, trainer, member portal',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Vortex Fitness',
+  },
+  themeColor: '#09090b',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

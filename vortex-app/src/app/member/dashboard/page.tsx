@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { PushOptIn } from '@/components/PushOptIn'
 
 const GYM_HOURS = [
   { day: 'Monday – Friday', hours: '6:00 AM – 10:00 PM' },
@@ -30,6 +31,8 @@ export default async function MemberDashboard() {
 
   return (
     <div className="p-6 lg:p-8 max-w-6xl mx-auto space-y-8">
+      {user && <PushOptIn userId={user.id} />}
+      
       {/* Header */}
       <div>
         <p className="text-zinc-500 text-sm font-medium">{greeting} 👋</p>

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { AppNavbar } from '@/components/AppNavbar'
 
-export default async function TrainerLayout({ children }: { children: React.ReactNode }) {
+export default async function OwnerLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -14,12 +14,14 @@ export default async function TrainerLayout({ children }: { children: React.Reac
     .eq('id', user.id)
     .single() as any
 
-  if (profile?.role === 'owner') redirect('/owner/dashboard')
-  if (profile?.role === 'member') redirect('/member/dashboard')
+  if (profile?.role !== 'owner') {
+    if (profile?.role === 'trainer') redirect('/trainer/dashboard')
+    else redirect('/member/dashboard')
+  }
 
   return (
     <div className="flex min-h-screen bg-black">
-      <AppNavbar role="trainer" userName={profile?.full_name || user.email || ''} />
+      <AppNavbar role="owner" userName={profile?.full_name || user.email || ''} />
       <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 pb-20 lg:pb-0 min-h-screen">
         {children}
       </main>

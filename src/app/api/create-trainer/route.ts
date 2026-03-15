@@ -17,8 +17,8 @@ export async function POST(req: Request) {
       .eq('id', user.id)
       .single() as any
 
-    if (profile?.role !== 'trainer') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    if (profile?.role !== 'owner') {
+      return NextResponse.json({ error: 'Forbidden – only the owner can create trainer accounts' }, { status: 403 })
     }
 
     const { email, password, fullName, phone } = await req.json()

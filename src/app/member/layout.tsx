@@ -14,6 +14,7 @@ export default async function MemberLayout({ children }: { children: React.React
     .eq('id', user.id)
     .single() as any
 
+  if (profile?.role === 'owner') redirect('/owner/dashboard')
   if (profile?.role === 'trainer') redirect('/trainer/dashboard')
 
   return (

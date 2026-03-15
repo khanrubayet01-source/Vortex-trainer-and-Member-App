@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { RefreshCw, Megaphone, Plus } from 'lucide-react'
-import Link from 'next/link'
+import { RefreshCw } from 'lucide-react'
 
 interface Request {
   id: string
@@ -117,22 +116,6 @@ export default function TrainerDashboard() {
           <h1 className="text-2xl lg:text-3xl font-black text-white mt-1">Client Requests</h1>
         </div>
         <div className="flex items-center gap-2">
-          {/* Quick add trainer form */}
-          <Link
-            href="/trainer/create-account"
-            className="flex items-center gap-1.5 px-3 py-2 bg-zinc-900 border border-zinc-700 text-zinc-300 hover:border-red-700 hover:text-red-400 text-xs font-bold rounded-lg transition-all"
-          >
-            <Plus size={13} />
-            <span className="hidden sm:inline">Add Trainer</span>
-          </Link>
-          {/* Quick add notice button */}
-          <Link
-            href="/trainer/billboard"
-            className="flex items-center gap-1.5 px-3 py-2 bg-zinc-900 border border-zinc-700 text-zinc-300 hover:border-red-700 hover:text-red-400 text-xs font-bold rounded-lg transition-all"
-          >
-            <Megaphone size={13} />
-            <span className="hidden sm:inline">Post Notice</span>
-          </Link>
           <button onClick={loadRequests} className="p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">
             <RefreshCw size={16} />
           </button>
@@ -237,18 +220,7 @@ export default function TrainerDashboard() {
         </div>
       )}
 
-      {/* Quick billboard CTA at bottom (visible on mobile when no requests) */}
-      <div className="flex items-center gap-3 pt-2 border-t border-zinc-800/50">
-        <Megaphone size={14} className="text-zinc-600 shrink-0" />
-        <p className="text-xs text-zinc-600 flex-1">Post an announcement for all members</p>
-        <Link
-          href="/trainer/billboard"
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600/10 border border-red-800/30 text-red-400 hover:bg-red-600 hover:text-white text-xs font-bold rounded-lg transition-all"
-        >
-          <Plus size={12} />
-          New Notice
-        </Link>
-      </div>
+
     </div>
   )
 }

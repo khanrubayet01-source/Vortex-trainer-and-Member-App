@@ -8,7 +8,7 @@ export type Database = {
           id: string
           email: string
           full_name: string | null
-          role: 'member' | 'trainer'
+          role: 'member' | 'trainer' | 'owner'
           avatar_url: string | null
           phone: string | null
           created_at: string

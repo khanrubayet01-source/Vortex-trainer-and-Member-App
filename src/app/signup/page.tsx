@@ -34,14 +34,14 @@ export default function SignupPage() {
     }
 
     if (data.user) {
-      const { error: profileError } = await supabase.from('profiles').upsert({
-        id: data.user.id,
-        email,
+      const { error: profileError } = await supabase.from('profiles').update({
         full_name: fullName,
-        role: 'member',
         phone: phone || null,
-      })
-      if (profileError) console.error('Profile error:', profileError)
+      }).eq('id', data.user.id)
+      
+      if (profileError) {
+        console.error('Profile update error:', JSON.stringify(profileError, null, 2))
+      }
     }
 
     toast.success('Account created! Redirecting...')

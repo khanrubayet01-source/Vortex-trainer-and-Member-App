@@ -1,28 +1,23 @@
 import { createClient } from '@/lib/supabase/server'
 import { PushOptIn } from '@/components/PushOptIn'
 
-const GYM_HOURS = [
-  { day: 'Monday – Friday', hours: '6:00 AM – 10:00 PM' },
-  { day: 'Saturday', hours: '7:00 AM – 8:00 PM' },
-  { day: 'Sunday', hours: '8:00 AM – 6:00 PM' },
-  { day: 'Public Holidays', hours: '8:00 AM – 4:00 PM' },
-]
-
 export default async function MemberDashboard() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [profileRes, requestsRes, routinesRes, noticesRes] = await Promise.all([
+  const [profileRes, requestsRes, routinesRes, noticesRes, timetableRes] = await Promise.all([
     supabase.from('profiles').select('full_name').eq('id', user!.id).single(),
     supabase.from('requests').select('id, status, request_type, created_at').eq('member_id', user!.id).order('created_at', { ascending: false }).limit(3),
     supabase.from('routines').select('day_label, exercise_name').eq('member_id', user!.id).order('day_label'),
     supabase.from('gym_notices').select('id, title, body, type, created_at').order('created_at', { ascending: false }).limit(5),
+    supabase.from('gym_timetable').select('id, day_label, open_time, close_time, is_closed').order('display_order', { ascending: true }),
   ])
 
   const profile = profileRes.data as { full_name: string | null } | null
   const myRequests: any[] = (requestsRes.data as any) || []
   const routines: any[] = (routinesRes.data as any) || []
   const gymNotices: { id: string; title: string; body: string; type: 'info' | 'warning' | 'success'; created_at: string }[] = (noticesRes.data as any) || []
+  const gymHours: { id: string; day_label: string; open_time: string; close_time: string; is_closed: boolean }[] = (timetableRes.data as any) || []
 
   const uniqueDays = [...new Set(routines.map(r => r.day_label))]
 
@@ -115,12 +110,16 @@ export default async function MemberDashboard() {
               <span className="w-4 h-[2px] bg-red-600" /> Gym Hours
             </h2>
             <div className="space-y-3">
-              {GYM_HOURS.map(h => (
-                <div key={h.day} className="flex flex-col gap-0.5">
-                  <span className="text-xs text-zinc-500">{h.day}</span>
-                  <span className="text-sm font-semibold text-white">{h.hours}</span>
+              {gymHours.length > 0 ? gymHours.map(h => (
+                <div key={h.id} className="flex flex-col gap-0.5">
+                  <span className="text-xs text-zinc-500">{h.day_label}</span>
+                  <span className="text-sm font-semibold text-white">
+                    {h.is_closed ? '🔒 Closed' : `${h.open_time} – ${h.close_time}`}
+                  </span>
                 </div>
-              ))}
+              )) : (
+                <p className="text-xs text-zinc-600">Hours not available</p>
+              )}
             </div>
           </div>
 

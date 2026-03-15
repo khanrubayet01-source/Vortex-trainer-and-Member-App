@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { LogOut, Menu, X, LayoutDashboard, Dumbbell, Salad, Search, Bookmark, ClipboardList, LayoutGrid, ChefHat, FileText, Megaphone } from 'lucide-react'
+import { LogOut, Menu, X, LayoutDashboard, Dumbbell, Salad, Search, Bookmark, ClipboardList, LayoutGrid, ChefHat, FileText, Megaphone, Crown, UserPlus, Clock } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -27,14 +27,21 @@ const trainerNavItems: NavItem[] = [
   { label: 'Billboard', href: '/trainer/billboard', icon: '📢', lucide: Megaphone },
 ]
 
-interface AppNavbarProps { role: 'member' | 'trainer'; userName?: string }
+const ownerNavItems: NavItem[] = [
+  { label: 'Dashboard', href: '/owner/dashboard', icon: '👑', lucide: Crown },
+  { label: 'Add Trainer', href: '/owner/create-trainer', icon: '➕', lucide: UserPlus },
+  { label: 'Billboard', href: '/owner/billboard', icon: '📢', lucide: Megaphone },
+  { label: 'Timetable', href: '/owner/timetable', icon: '🕐', lucide: Clock },
+]
+
+interface AppNavbarProps { role: 'member' | 'trainer' | 'owner'; userName?: string }
 
 export function AppNavbar({ role, userName }: AppNavbarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
   const [menuOpen, setMenuOpen] = useState(false)
-  const navItems = role === 'trainer' ? trainerNavItems : memberNavItems
+  const navItems = role === 'owner' ? ownerNavItems : role === 'trainer' ? trainerNavItems : memberNavItems
   // Bottom bar items: first 5 for member, all 4 for trainer
   const bottomItems = navItems.slice(0, 5)
 
@@ -51,7 +58,7 @@ export function AppNavbar({ role, userName }: AppNavbarProps) {
       <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-zinc-950 border-r border-zinc-800 fixed left-0 top-0 z-30">
         {/* Logo */}
         <div className="px-6 py-6 border-b border-zinc-800">
-          <Link href={role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
+          <Link href={role === 'owner' ? '/owner/dashboard' : role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}
             className="flex flex-col gap-0.5 group">
             <span className="text-2xl font-black tracking-[0.15em] text-white group-hover:text-red-400 transition-colors">VORTEX</span>
             <span className="text-red-500 text-[10px] tracking-[0.4em] uppercase font-semibold">Fitness Club</span>
@@ -90,7 +97,7 @@ export function AppNavbar({ role, userName }: AppNavbarProps) {
 
       {/* Mobile top bar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800 flex items-center justify-between px-4 py-3">
-        <Link href={role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}>
+        <Link href={role === 'owner' ? '/owner/dashboard' : role === 'trainer' ? '/trainer/dashboard' : '/member/dashboard'}>
           <span className="text-xl font-black tracking-[0.15em] text-white">VORTEX</span>
           <span className="text-red-500 text-[9px] tracking-[0.3em] uppercase font-semibold ml-2">{role}</span>
         </Link>

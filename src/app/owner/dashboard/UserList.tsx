@@ -68,7 +68,7 @@ export function UserList({ users, type }: { users: UserObj[], type: 'trainer' | 
             <button
               onClick={() => handleDelete(u.id, u.full_name || u.email)}
               disabled={deletingId === u.id}
-              className="opacity-0 group-hover:opacity-100 p-2 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all disabled:opacity-50"
+              className="opacity-100 lg:opacity-0 lg:group-hover:opacity-100 p-2 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all disabled:opacity-50"
               title={`Delete ${type}`}
             >
               {deletingId === u.id ? (

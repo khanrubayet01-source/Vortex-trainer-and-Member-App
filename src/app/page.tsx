@@ -1,9 +1,21 @@
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient()
+  
+  // Fetch only non-closed days to display on the landing page
+  const { data: timetable } = await supabase
+    .from('gym_timetable')
+    .select('id, day_label, open_time, close_time, is_closed')
+    .eq('is_closed', false)
+    .order('display_order', { ascending: true })
+
+  const hours: any[] = timetable || []
+
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
-      {/* Animated background */}
+      {/* Animated background and CSS Grids omitted for brevity (they remain unchanged) */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-linear-to-br from-black via-zinc-950 to-black" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-700/10 rounded-full blur-3xl animate-pulse" />
@@ -11,13 +23,12 @@ export default function HomePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-950/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Grid lines */}
       <div className="absolute inset-0 z-0 opacity-5"
         style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '60px 60px' }}
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-10 px-4 text-center">
-        {/* Logo */}
+      <div className="relative z-10 flex flex-col items-center gap-10 px-4 text-center pb-12">
+        {/* Logo area */}
         <div className="flex flex-col items-center gap-2">
           <div className="relative">
             <div className="absolute inset-0 blur-2xl bg-red-700/20 rounded-full scale-150" />
@@ -53,11 +64,19 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Gym info strip */}
-        <div className="flex flex-wrap justify-center gap-8 mt-4 text-xs text-zinc-500 tracking-widest uppercase">
-          <span>⏰ Mon – Sat: 6am – 10pm</span>
-          <span>⏰ Sunday: 8am – 6pm</span>
-          <span>📍 Vortex Fitness Club</span>
+        {/* Dynamic Gym info strip */}
+        <div className="flex flex-wrap justify-center gap-6 mt-4 text-xs tracking-widest uppercase items-center">
+          <span className="text-red-500 font-bold">📍 Vortex Fitness Club</span>
+          
+          {hours.length > 0 ? (
+            hours.map(h => (
+              <span key={h.id} className="text-zinc-500">
+                ⏰ {h.day_label}: {h.open_time} – {h.close_time}
+              </span>
+            ))
+          ) : (
+            <span className="text-zinc-500">⏰ Check dashboard for hours</span>
+          )}
         </div>
       </div>
     </main>

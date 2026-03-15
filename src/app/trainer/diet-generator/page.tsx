@@ -66,8 +66,30 @@ export default function DietGeneratorPage() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    supabase.from('profiles').select('id, full_name, email').eq('role', 'member').then(({ data }) => setMembers(data || []))
-  }, [])
+    async function loadActiveMembers() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data: activeRequests } = await supabase
+        .from('requests')
+        .select('member_id')
+        .eq('trainer_id', user.id)
+        .in('request_type', ['diet', 'both'])
+        .in('status', ['pending', 'in_progress'])
+
+      if (activeRequests && activeRequests.length > 0) {
+        const memberIds = [...new Set(activeRequests.map(r => r.member_id))]
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .in('id', memberIds)
+        setMembers(profiles || [])
+      } else {
+        setMembers([])
+      }
+    }
+    loadActiveMembers()
+  }, [supabase])
 
   function handleGenerate() {
     if (!memberId) { toast.error('Select a member first'); return }

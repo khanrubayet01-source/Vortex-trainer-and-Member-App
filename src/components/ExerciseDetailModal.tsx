@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { getExerciseById, type Exercise } from '@/lib/exercisedb'
 import { capitalize } from '@/lib/utils'
+import Image from 'next/image'
 
 interface RoutineRow {
   id: string
@@ -93,8 +94,8 @@ export function ExerciseDetailModal({ exercise, index }: ExerciseDetailModalProp
                 <div className="space-y-5">
                   {/* GIF */}
                   {detail.gifUrl && (
-                    <div className="rounded-xl overflow-hidden bg-zinc-900 flex items-center justify-center h-48">
-                      <img src={detail.gifUrl} alt={detail.name} className="h-full object-contain" />
+                    <div className="relative rounded-xl overflow-hidden bg-zinc-900 flex items-center justify-center h-48">
+                      <Image src={detail.gifUrl} alt={detail.name} fill unoptimized className="object-contain" />
                     </div>
                   )}
 

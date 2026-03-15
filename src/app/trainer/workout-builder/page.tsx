@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { searchExercises, getBodyParts, getExercisesByBodyPart, type Exercise } from '@/lib/exercisedb'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { Search, Plus, Trash2, Save, GripVertical } from 'lucide-react'
+import { Search, Plus, Trash2, Save } from 'lucide-react'
+import Image from 'next/image'
 
 interface DayExercise {
   tempId: string
@@ -32,7 +33,7 @@ function WorkoutBuilderInner() {
   const [selectedBodyPart, setSelectedBodyPart] = useState('')
   const [members, setMembers] = useState<{ id: string; full_name: string | null; email: string }[]>([])
   const [memberId, setMemberId] = useState(preselectedMemberId)
-  const [days, setDays] = useState(DEFAULT_DAYS)
+  const [days] = useState(DEFAULT_DAYS)
   const [activeDay, setActiveDay] = useState('Day 1')
   const [plan, setPlan] = useState<DayPlan>({})
   const [saving, setSaving] = useState(false)
@@ -47,15 +48,38 @@ function WorkoutBuilderInner() {
   })
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 1024)
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
-    supabase.from('profiles').select('id, full_name, email').eq('role', 'member').then(({ data }) => setMembers(data || []))
-  }, [])
+    async function loadActiveMembers() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      // Find active requests for this trainer
+      const { data: activeRequests } = await supabase
+        .from('requests')
+        .select('member_id')
+        .eq('trainer_id', user.id)
+        .in('request_type', ['workout', 'both'])
+        .in('status', ['pending', 'in_progress'])
+
+      if (activeRequests && activeRequests.length > 0) {
+        const memberIds = [...new Set(activeRequests.map(r => r.member_id))]
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .in('id', memberIds)
+        setMembers(profiles || [])
+      } else {
+        setMembers([])
+      }
+    }
+    loadActiveMembers()
+  }, [supabase])
 
   useEffect(() => {
     const t = setTimeout(() => { if (query) setDebouncedQuery(query) }, 500)
@@ -97,7 +121,7 @@ function WorkoutBuilderInner() {
     // Delete existing routines for this member-trainer combo
     await supabase.from('routines').delete().eq('member_id', memberId).eq('trainer_id', user.id)
 
-    const rows: any[] = []
+    const rows: { member_id: string, trainer_id: string, day_label: string, exercise_db_id: string, exercise_name: string, sets: number, reps: string, notes: string | null, order_index: number }[] = []
     for (const [day, exercises] of Object.entries(plan)) {
       exercises.forEach((ex, i) => {
         rows.push({
@@ -125,9 +149,9 @@ function WorkoutBuilderInner() {
           supabase.from('profiles').select('email, full_name').eq('id', memberId).single(),
           supabase.from('profiles').select('full_name').eq('id', user.id).single(),
         ])
-        const memberEmail = (memberRes.data as any)?.email
-        const memberName = (memberRes.data as any)?.full_name || 'Athlete'
-        const trainerName = (trainerRes.data as any)?.full_name || 'Your Trainer'
+        const memberEmail = (memberRes.data as { email?: string })?.email
+        const memberName = (memberRes.data as { full_name?: string })?.full_name || 'Athlete'
+        const trainerName = (trainerRes.data as { full_name?: string })?.full_name || 'Your Trainer'
         
         if (memberEmail) {
           console.log(`[workout-builder] Sending email to ${memberEmail}`)
@@ -227,7 +251,7 @@ function WorkoutBuilderInner() {
           ) : exercises?.map(ex => (
             <div key={ex.id} className="flex gap-3 p-3 border-b border-zinc-800/50 hover:bg-zinc-900/50 transition-colors group">
               <div className="w-12 h-12 bg-zinc-900 rounded-lg overflow-hidden shrink-0">
-                {ex.gifUrl && <img src={ex.gifUrl} alt={ex.name} className="w-full h-full object-cover" />}
+                {ex.gifUrl && <Image src={ex.gifUrl} alt={ex.name} width={48} height={48} className="w-full h-full object-cover" />}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white capitalize leading-tight line-clamp-2">{ex.name}</p>

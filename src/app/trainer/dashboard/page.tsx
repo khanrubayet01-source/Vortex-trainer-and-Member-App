@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { RefreshCw } from 'lucide-react'
@@ -27,7 +27,7 @@ export default function TrainerDashboard() {
   const [updating, setUpdating] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'pending' | 'in_progress' | 'completed'>('pending')
 
-  async function loadRequests() {
+  const loadRequests = React.useCallback(async () => {
     setLoading(true)
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
@@ -38,9 +38,12 @@ export default function TrainerDashboard() {
       .order('created_at', { ascending: false })
     setRequests((data as any) || [])
     setLoading(false)
-  }
+  }, [supabase])
 
-  useEffect(() => { loadRequests() }, [])
+  useEffect(() => {
+    const init = async () => { await loadRequests() }
+    init()
+  }, [loadRequests])
 
   async function updateStatus(id: string, status: 'pending' | 'in_progress' | 'completed') {
     setUpdating(id)

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Users, Dumbbell, ClipboardList, Crown, UserPlus, Megaphone, Clock } from 'lucide-react'
+import { UserList } from './UserList'
 
 export default async function OwnerDashboard() {
   const supabase = await createClient()
@@ -81,24 +82,7 @@ export default async function OwnerDashboard() {
               + Add
             </Link>
           </div>
-          {trainers.length === 0 ? (
-            <div className="text-center py-8 text-zinc-600 text-sm">No trainers yet</div>
-          ) : (
-            <div className="space-y-2">
-              {trainers.map(trainer => (
-                <div key={trainer.id} className="flex items-center gap-3 p-3 bg-zinc-900 rounded-xl">
-                  <div className="w-8 h-8 rounded-full bg-red-600/20 flex items-center justify-center text-red-400 font-bold text-sm shrink-0">
-                    {(trainer.full_name || trainer.email || 'T')[0].toUpperCase()}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-white truncate">{trainer.full_name || 'Unnamed'}</p>
-                    <p className="text-xs text-zinc-500 truncate">{trainer.email}</p>
-                  </div>
-                  <span className="text-[10px] text-zinc-600 shrink-0">{new Date(trainer.created_at).toLocaleDateString('en-GB')}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          <UserList users={trainers} type="trainer" />
         </div>
 
         {/* Members List */}
@@ -109,27 +93,7 @@ export default async function OwnerDashboard() {
               <span className="ml-auto text-[10px] font-semibold bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded-full">{members.length}</span>
             </h2>
           </div>
-          {members.length === 0 ? (
-            <div className="text-center py-8 text-zinc-600 text-sm">No members yet</div>
-          ) : (
-            <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-              {members.map(member => {
-                const memberRequests = requests.filter(r => r.member_id === member.id || (r.member as any)?.email === member.email)
-                return (
-                  <div key={member.id} className="flex items-center gap-3 p-3 bg-zinc-900 rounded-xl">
-                    <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 font-bold text-sm shrink-0">
-                      {(member.full_name || member.email || 'M')[0].toUpperCase()}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-white truncate">{member.full_name || 'Unnamed'}</p>
-                      <p className="text-xs text-zinc-500 truncate">{member.email}</p>
-                    </div>
-                    <span className="text-[10px] text-zinc-600 shrink-0">{new Date(member.created_at).toLocaleDateString('en-GB')}</span>
-                  </div>
-                )
-              })}
-            </div>
-          )}
+          <UserList users={members} type="member" />
         </div>
       </div>
 

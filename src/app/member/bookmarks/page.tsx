@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { X, BookmarkX } from 'lucide-react'
 import { toast } from 'sonner'
+import Image from 'next/image'
 
 interface Bookmark {
   id: string
@@ -28,7 +29,7 @@ export default function BookmarksPage() {
       setLoading(false)
     }
     load()
-  }, [])
+  }, [supabase])
 
   async function removeBookmark(id: string, exerciseDbId: string) {
     const { data: { user } } = await supabase.auth.getUser()
@@ -73,7 +74,7 @@ export default function BookmarksPage() {
             <div key={bm.id} className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden hover:border-yellow-700/40 transition-all duration-300 group">
               <div className="relative h-40 bg-zinc-900 overflow-hidden cursor-pointer" onClick={() => setSelected(bm)}>
                 {bm.exercise_gif ? (
-                  <img src={bm.exercise_gif} alt={bm.exercise_name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <Image src={bm.exercise_gif} alt={bm.exercise_name} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="flex items-center justify-center h-full text-4xl">💪</div>
                 )}
@@ -102,8 +103,8 @@ export default function BookmarksPage() {
                 <button onClick={() => setSelected(null)}><X size={18} className="text-zinc-500" /></button>
               </div>
               {selected.exercise_gif && (
-                <div className="h-52 bg-zinc-900 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                  <img src={selected.exercise_gif} alt={selected.exercise_name} className="h-full object-contain" />
+                <div className="relative h-52 bg-zinc-900 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+                  <Image src={selected.exercise_gif} alt={selected.exercise_name} fill unoptimized className="object-contain" />
                 </div>
               )}
               <button

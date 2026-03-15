@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { capitalize } from '@/lib/utils'
 import { Search, Bookmark, BookmarkCheck, X } from 'lucide-react'
 import { toast } from 'sonner'
+import Image from 'next/image'
 
 export default function ExplorePage() {
   const supabase = createClient()
@@ -134,7 +135,7 @@ export default function ExplorePage() {
             <div key={ex.id} className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden hover:border-red-700/50 transition-all duration-300 group">
               <div className="relative h-40 bg-zinc-900 overflow-hidden cursor-pointer" onClick={() => setSelectedExercise(ex)}>
                 {ex.gifUrl ? (
-                  <img src={ex.gifUrl} alt={ex.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <Image src={ex.gifUrl} alt={ex.name} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="flex items-center justify-center h-full text-4xl">💪</div>
                 )}
@@ -164,8 +165,8 @@ export default function ExplorePage() {
                 <button onClick={() => setSelectedExercise(null)} className="text-zinc-500 hover:text-white transition-colors"><X size={20} /></button>
               </div>
               {selectedExercise.gifUrl && (
-                <div className="rounded-xl overflow-hidden bg-zinc-900 h-48 flex items-center justify-center">
-                  <img src={selectedExercise.gifUrl} alt={selectedExercise.name} className="h-full object-contain" />
+                <div className="relative rounded-xl overflow-hidden bg-zinc-900 h-48 flex items-center justify-center">
+                  <Image src={selectedExercise.gifUrl} alt={selectedExercise.name} fill unoptimized className="object-contain" />
                 </div>
               )}
               <div className="flex flex-wrap gap-2">

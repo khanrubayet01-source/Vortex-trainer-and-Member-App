@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { Clock, Edit2, Check, X, Plus, Trash2 } from 'lucide-react'
 
@@ -22,15 +22,18 @@ export default function OwnerTimetablePage() {
   const [showAdd, setShowAdd] = useState(false)
   const [addForm, setAddForm] = useState({ day_label: '', open_time: '8:00 AM', close_time: '6:00 PM', is_closed: false })
 
-  async function loadTimetable() {
+  const loadTimetable = React.useCallback(async () => {
     setLoading(true)
     const res = await fetch('/api/timetable')
     const json = await res.json()
     setRows(json.data || [])
     setLoading(false)
-  }
+  }, [])
 
-  useEffect(() => { loadTimetable() }, [])
+  useEffect(() => {
+    const init = async () => { await loadTimetable() }
+    init()
+  }, [loadTimetable])
 
   function startEdit(row: TimetableRow) {
     setEditingId(row.id)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { RefreshCw, Megaphone } from 'lucide-react'
 
@@ -19,7 +19,7 @@ export default function TrainerBillboardPage() {
   const [notices, setNotices] = useState<Notice[]>([])
   const [loading, setLoading] = useState(true)
 
-  async function loadNotices() {
+  const loadNotices = React.useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase
       .from('gym_notices')
@@ -27,9 +27,12 @@ export default function TrainerBillboardPage() {
       .order('created_at', { ascending: false })
     if (!error) setNotices((data as Notice[]) || [])
     setLoading(false)
-  }
+  }, [supabase])
 
-  useEffect(() => { loadNotices() }, [])
+  useEffect(() => {
+    const init = async () => { await loadNotices() }
+    init()
+  }, [loadNotices])
 
   const typeConfig = (type: NoticeType) =>
     type === 'success' ? 'bg-green-950/20 border-green-800/30' :

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react'
@@ -22,17 +22,18 @@ export default function TemplatesPage() {
   const [creating, setCreating] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadTemplates()
-  }, [])
-
-  async function loadTemplates() {
+  const loadTemplates = React.useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     const { data } = await supabase.from('routine_templates').select('*').eq('trainer_id', user.id).order('created_at', { ascending: false })
-    setTemplates((data as any) || [])
+    setTemplates((data as Template[]) || [])
     setLoading(false)
-  }
+  }, [supabase])
+
+  useEffect(() => {
+    const init = async () => { await loadTemplates() }
+    init()
+  }, [loadTemplates])
 
   async function createTemplate() {
     if (!newName.trim()) { toast.error('Give the template a name'); return }

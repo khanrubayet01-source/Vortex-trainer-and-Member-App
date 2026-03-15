@@ -1,0 +1,260 @@
+﻿
+> vortex-app@0.1.0 lint
+> eslint
+
+
+F:\Vortex Traieer and Member app\scripts\test-email.ts
+  42:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\api\create-trainer\route.ts
+  18:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  67:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\api\delete-user\route.ts
+  40:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\api\notify\route.ts
+  115:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  128:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  162:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  174:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\api\push\route.ts
+  67:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  80:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\api\timetable\route.ts
+  27:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  70:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\member\bookmarks\page.tsx
+   31:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array                                                                                                                                                                              react-hooks/exhaustive-deps
+   76:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  106:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+F:\Vortex Traieer and Member app\src\app\member\dashboard\page.tsx
+  17:21   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  17:50   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:19   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:48   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:147  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:138  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\member\diet\page.tsx
+  11:28  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  14:46  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  22:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  80:35  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  80:40  warning  'i' is defined but never used             @typescript-eslint/no-unused-vars
+
+F:\Vortex Traieer and Member app\src\app\member\explore\page.tsx
+  137:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  168:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+F:\Vortex Traieer and Member app\src\app\member\layout.tsx
+  15:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\member\my-plan\page.tsx
+  13:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\member\request\page.tsx
+   6:16  warning  'ChevronDown' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+  24:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+F:\Vortex Traieer and Member app\src\app\owner\billboard\page.tsx
+   40:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+F:\Vortex Traieer and Member app\src\app\owner\billboard\page.tsx:40:21
+  38 |   }
+  39 |
+> 40 |   useEffect(() => { loadNotices() }, [])
+     |                     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  41 |
+  42 |   async function handleAdd() {
+  43 |     if (!form.title.trim() || !form.body.trim()) { toast.error('Title and message are required'); return }  react-hooks/set-state-in-effect
+   40:38  warning  React Hook useEffect has a missing dependency: 'loadNotices'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  161:59  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react/no-unescaped-entities
+  161:70  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react/no-unescaped-entities
+
+F:\Vortex Traieer and Member app\src\app\owner\create-trainer\page.tsx
+  41:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\owner\dashboard\UserList.tsx
+  41:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+F:\Vortex Traieer and Member app\src\app\owner\dashboard\page.tsx
+   15:19   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   16:18   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   17:19   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  121:79   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  121:113  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\owner\layout.tsx
+  15:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\owner\timetable\page.tsx
+  33:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+F:\Vortex Traieer and Member app\src\app\owner\timetable\page.tsx:33:21
+  31 |   }
+  32 |
+> 33 |   useEffect(() => { loadTimetable() }, [])
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  34 |
+  35 |   function startEdit(row: TimetableRow) {
+  36 |     setEditingId(row.id)  react-hooks/set-state-in-effect
+
+F:\Vortex Traieer and Member app\src\app\page.tsx
+  14:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\billboard\page.tsx
+  32:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+F:\Vortex Traieer and Member app\src\app\trainer\billboard\page.tsx:32:21
+  30 |   }
+  31 |
+> 32 |   useEffect(() => { loadNotices() }, [])
+     |                     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  33 |
+  34 |   const typeConfig = (type: NoticeType) =>
+  35 |     type === 'success' ? 'bg-green-950/20 border-green-800/30' :  react-hooks/set-state-in-effect
+  32:38  warning  React Hook useEffect has a missing dependency: 'loadNotices'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+  81:67  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+
+F:\Vortex Traieer and Member app\src\app\trainer\create-account\page.tsx
+  42:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\dashboard\page.tsx
+   39:26   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+   43:21   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+F:\Vortex Traieer and Member app\src\app\trainer\dashboard\page.tsx:43:21
+  41 |   }
+  42 |
+> 43 |   useEffect(() => { loadRequests() }, [])
+     |                     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  44 |
+  45 |   async function updateStatus(id: string, status: 'pending' | 'in_progress' | 'completed') {
+  46 |     setUpdating(id)  react-hooks/set-state-in-effect
+   43:39   warning  React Hook useEffect has a missing dependency: 'loadRequests'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+   68:71   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+   68:105  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  101:61   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\diet-generator\page.tsx
+   92:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  144:48  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  145:47  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  146:49  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  147:60  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  290:64  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\layout.tsx
+  15:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\templates\page.tsx
+   12:14  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+   26:5   error    Error: Cannot access variable before it is declared
+
+`loadTemplates` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+F:\Vortex Traieer and Member app\src\app\trainer\templates\page.tsx:26:5
+  24 |
+  25 |   useEffect(() => {
+> 26 |     loadTemplates()
+     |     ^^^^^^^^^^^^^ `loadTemplates` accessed before it is declared
+  27 |   }, [])
+  28 |
+  29 |   async function loadTemplates() {
+
+F:\Vortex Traieer and Member app\src\app\trainer\templates\page.tsx:29:3
+  27 |   }, [])
+  28 |
+> 29 |   async function loadTemplates() {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     const { data: { user } } = await supabase.auth.getUser()
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |     if (!user) return
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |     const { data } = await supabase.from('routine_templates').select('*').eq('trainer_id', user.id).order('created_at', { ascending: false })
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 33 |     setTemplates((data as any) || [])
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 34 |     setLoading(false)
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 35 |   }
+     | ^^^^ `loadTemplates` is declared here
+  36 |
+  37 |   async function createTemplate() {
+  38 |     if (!newName.trim()) { toast.error('Give the template a name'); return }  react-hooks/immutability
+   27:6   warning  React Hook useEffect has a missing dependency: 'loadTemplates'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+   33:27  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+  133:52  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-explicit-any
+
+F:\Vortex Traieer and Member app\src\app\trainer\workout-builder\page.tsx
+    3:31  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+    9:38  warning  'GripVertical' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   35:16  warning  'setDays' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   50:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+F:\Vortex Traieer and Member app\src\app\trainer\workout-builder\page.tsx:50:5
+  48 |
+  49 |   useEffect(() => {
+> 50 |     setIsMobile(window.innerWidth < 1024)
+     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  51 |     const handleResize = () => setIsMobile(window.innerWidth < 1024)
+  52 |     window.addEventListener('resize', handleResize)
+  53 |     return () => window.removeEventListener('resize', handleResize)  react-hooks/set-state-in-effect
+   81:6   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  123:17  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  151:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  152:47  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  153:49  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  253:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @next/next/no-img-element
+
+F:\Vortex Traieer and Member app\src\components\ExerciseDetailModal.tsx
+  97:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+F:\Vortex Traieer and Member app\src\components\PushOptIn.tsx
+  67:19  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  88:57  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+F:\Vortex Traieer and Member app\src\lib\supabase\client.ts
+  2:15  warning  'Database' is defined but never used      @typescript-eslint/no-unused-vars
+  5:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 86 problems (65 errors, 21 warnings)
+

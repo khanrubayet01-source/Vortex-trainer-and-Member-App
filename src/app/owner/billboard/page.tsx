@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { Plus, Trash2, RefreshCw, Megaphone } from 'lucide-react'
@@ -30,14 +30,17 @@ export default function OwnerBillboardPage() {
   const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({ title: '', body: '', type: 'info' as NoticeType })
 
-  async function loadNotices() {
+  const loadNotices = React.useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase.from('gym_notices').select('*').order('created_at', { ascending: false })
     if (!error) setNotices((data as Notice[]) || [])
     setLoading(false)
-  }
+  }, [supabase])
 
-  useEffect(() => { loadNotices() }, [])
+  useEffect(() => {
+    const init = async () => { await loadNotices() }
+    init()
+  }, [loadNotices])
 
   async function handleAdd() {
     if (!form.title.trim() || !form.body.trim()) { toast.error('Title and message are required'); return }
@@ -158,7 +161,7 @@ export default function OwnerBillboardPage() {
         <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-zinc-800 rounded-2xl">
           <Megaphone className="text-zinc-700 mb-3" size={40} />
           <h2 className="text-lg font-bold text-zinc-600">No Notices Yet</h2>
-          <p className="text-sm text-zinc-700 mt-1">Click "New Notice" to post your first announcement.</p>
+          <p className="text-sm text-zinc-700 mt-1">Click &quot;New Notice&quot; to post your first announcement.</p>
         </div>
       ) : (
         <div className="space-y-3">

@@ -21,7 +21,7 @@ export default function RequestPage() {
     supabase.from('profiles').select('id, full_name, email').eq('role', 'trainer').then(({ data }) => {
       setTrainers(data || [])
     })
-  }, [])
+  }, [supabase])
 
   async function handleSubmit() {
     if (!trainerId) { toast.error('Please select a trainer'); return }
